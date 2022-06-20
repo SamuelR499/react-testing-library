@@ -23,6 +23,9 @@ describe('Teste o componente <Pokedex.js />', () => {
       const pokemonName = screen.getByText(element.name);
       expect(pokemonName).toBeInTheDocument();
     });
+    userEvent.click(nextPokemonBtn);
+    const pokemonName = screen.getByText(/Pikachu/i);
+    expect(pokemonName).toBeInTheDocument();
   });
   test('Teste se é mostrado apenas um pokémon por vez;', () => {
     renderWithRouter(<App />);
@@ -43,8 +46,14 @@ describe('Teste o componente <Pokedex.js />', () => {
 
   test('Teste se a Pokédex contém um botão para resetar o filtro:', () => {
     renderWithRouter(<App />);
-    const BtnAllPokemon = screen.getByRole('button', { name: /All/i });
+    const BtnFirePokemon = screen.getByRole('button', { name: /Fire/i });
 
+    expect(BtnFirePokemon.innerHTML).toBe('Fire');
+    userEvent.click(BtnFirePokemon);
+    const pokemonFireName = screen.getByText(/Charmander/i);
+    expect(pokemonFireName).toBeInTheDocument();
+
+    const BtnAllPokemon = screen.getByRole('button', { name: /All/i });
     expect(BtnAllPokemon.innerHTML).toBe('All');
     userEvent.click(BtnAllPokemon);
     const pokemonName = screen.getByText(/Pikachu/i);
